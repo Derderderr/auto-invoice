@@ -1,23 +1,43 @@
-This script is used to auto generate invoice PDF when Google Form is submitted. The script reads the last row from the response sheet, calculate the total price based on selected items, then replace placeholders inside the invoice template. After that, it export the invoice as PDF and send to the submitter email.
+This script is used to auto generate an invoice PDF when Google Form is submitted for purchasing goods. 
 
   How it works
 
     1. User submit the Google Form
 
-    2. Script read the last response row
+    2. Google Form transmitted responce data onto Google Sheet and trigger the script
 
-    3. Modulus section calculate item price
+    3. Script read the last response row
 
-    4. Placeholders in template is replaced
+    4. Process the data and calculate the total price
 
-    5. Invoice exported as PDF and email send
+    5. Using a template invoice and subsitute the data
+
+    6. Invoice exported as PDF and send the email to the user
 
   Setup
 
-    1. Create Google Form and link to Sheet
+    1. Prepare invoice template with placeholders, using {{1}}, {{2}}... for item placeholders, and {{email}}, etc for other replacements. Sample: https://docs.google.com/spreadsheets/d/11jXrAmasxktuydFv1HeA7_uF5a9DRsMV-FGdUXKYu24/edit?gid=790763898#gid=790763898
 
-    2. Prepare invoice template with placeholders
+      The Google Sheet ID is the naunce between /d/ ... /edit
 
-    3. Paste script into Apps Script editor
+    2. Create Google Form, must include:
 
-    4. Set onFormSubmit trigger
+      a. Email Address - where the invoice email will be sent to
+
+      b. At least 1 item
+
+    3. Publish the form, and in the Responce tab above, select Link To Sheets -> create a new Google Sheet Response
+
+    4. In the Google Sheet Responce, select Extensions -> Apps Script, a new tap would be opened
+
+    5. Reneame the project and delete all the default code
+
+    6. Copy and past the main.js in
+
+    7. Accoding to the form questions, adjust and copy and paste the code in the modulus.js
+
+    8. Save the code
+
+    9. On the left bar, select Triggers -> (bottom right) Add Trigger -> change "Select event type to "On form submit" -> save and verify this trigger
+
+
