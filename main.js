@@ -2,11 +2,8 @@
 // MAIN CONFIG
 // ======================================================
 
-// Active form response sheet
-var FORM_SHEET_NAME = "Submissions";
-
 // Invoice template
-var TEMPLATE_SHEET_ID = "1hpqJSUfqoGVZYnpwEpxzMTtQetIAPRoaJkVDMpmH7fk";
+var TEMPLATE_SHEET_ID = "1234abcd";
 var TEMPLATE_NUM_PLACEHOLDERS = 36;
 var OUTPUT_PDF_NAME = "Invoice";
 
@@ -17,6 +14,8 @@ var HEADER_SUBMITTER_NAME  = "Name";
 // Email config
 var EMAIL_SENDER_NAME = "xxx_company";
 var EMAIL_SUBJECT = "Invoice for your order";
+var EMAIL_BODY =  `Thank you for your order! Please find your invoice attached.\n\n` +
+                  `Best regards`
 
 // ======================================================
 // MAIN TRIGGER
@@ -25,9 +24,8 @@ var EMAIL_SUBJECT = "Invoice for your order";
 function onFormSubmit(e) {
 
   // ----- Load form response row -----
-  var sheet = SpreadsheetApp.getActiveSpreadsheet()
-    .getSheetByName(FORM_SHEET_NAME);
-
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0]; // first sheet
+  
   var lastRow = sheet.getLastRow();
   var headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
   var lastRowData = sheet.getRange(lastRow, 1, 1, sheet.getLastColumn()).getValues()[0];
@@ -54,25 +52,22 @@ function onFormSubmit(e) {
   // ==================================================
   // =========== END OF MODULUS SECTION ================
   // ==================================================
+  
 
-  // ----- Create invoice copy -----
-  var templateSheet = SpreadsheetApp.openById(TEMPLATE_SHEET_ID);
-  var tempCopy = templateSheet.copy(OUTPUT_PDF_NAME);
-  var tempSheet = SpreadsheetApp.openById(tempCopy.getId()).getSheets()[0];
-
-  // Update total in response sheet
-  sheet.getRange(lastRow, headers.indexOf("Total Amount") + 1)
-    .setValue(totalPrice);
+  // ----- Static placeholders -----
+  placeholderMap["{{Timestamp}}"]   = formData["Timestamp"];
+  placeholderMap["{{Submitter}}"]   = formData[HEADER_SUBMITTER_NAME];
+  placeholderMap["{{Total Price}}"] = totalPrice;
 
   // ----- Fill unused placeholders -----
   for (var i = curIndex; i <= TEMPLATE_NUM_PLACEHOLDERS; i++) {
     placeholderMap["{{" + i + "}}"] = "";
   }
 
-  // ----- Static placeholders -----
-  placeholderMap["{{Timestamp}}"]   = formData["Timestamp"];
-  placeholderMap["{{Submitter}}"]   = formData[HEADER_SUBMITTER_NAME];
-  placeholderMap["{{Total Price}}"] = totalPrice;
+  // ----- Create invoice copy -----
+  var templateSheet = SpreadsheetApp.openById(TEMPLATE_SHEET_ID);
+  var tempCopy = templateSheet.copy(OUTPUT_PDF_NAME);
+  var tempSheet = SpreadsheetApp.openById(tempCopy.getId()).getSheets()[0];
 
   // ----- Replace placeholders -----
   var range = tempSheet.getDataRange();
@@ -95,16 +90,14 @@ function onFormSubmit(e) {
   var pdf = DriveApp.getFileById(tempCopy.getId())
     .getAs("application/pdf");
 
-  DriveApp.getFileById(tempCopy.getId()).setTrashed(true);
+  tempCopy.setTrashed(true);
 
   // ----- Send email -----
   var submitterEmail = formData[HEADER_SUBMITTER_EMAIL];
   var submitterName  = formData[HEADER_SUBMITTER_NAME];
 
   var emailBody =
-    `Dear ${submitterName},\n\n` +
-    `Thank you for your order! Please find your invoice attached.\n\n` +
-    `Best regards,\nYear 12 Cohort`;
+    `Dear ${submitterName},\n\n` + EMAIL_BODY;
 
   MailApp.sendEmail({
     name: EMAIL_SENDER_NAME,
