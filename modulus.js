@@ -11,18 +11,15 @@ if (exists) {
 }
 
 // // // // // QUANTITY ITEM // // // // //
-var HEADER_ITEM_NAME     = "item header name";
 var HEADER_QUANTITY_NAME = "item quantity header name";
 var ITEM_COST            = 5;
 var DISPLAY_NAME         = "item display name";
 
-var exists   = formData[HEADER_ITEM_NAME];
 var quantity = formData[HEADER_QUANTITY_NAME];
 
 if (exists && Number.isInteger(quantity) && quantity > 0) {
   totalPrice += ITEM_COST * quantity;
-  placeholderMap["{{" + curIndex + "}}"] =
-    DISPLAY_NAME + " × " + quantity;
+  placeholderMap["{{" + curIndex + "}}"] = DISPLAY_NAME + " × " + quantity;
   curIndex++;
 }
 
