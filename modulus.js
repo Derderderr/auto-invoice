@@ -4,7 +4,7 @@ var ITEM_COST    = 5;
 var DISPLAY_NAME = "item display name";
 
 var exists = formData[HEADER_NAME];
-if (exists) {
+if (exists || exxists == "Yes") {
   totalPrice += ITEM_COST;
   placeholderMap["{{" + curIndex + "}}"] = DISPLAY_NAME;
   curIndex++;
