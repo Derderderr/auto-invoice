@@ -46,4 +46,6 @@ This script is used to auto generate an invoice PDF when Google Form is submitte
 
     2. Ensure both Google Sheet only has 1 active tab, if not, move the requirerd tab to the first
 
+    Video Tutorial COMING SOON...
+
 
