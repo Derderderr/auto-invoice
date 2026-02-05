@@ -40,4 +40,10 @@ This script is used to auto generate an invoice PDF when Google Form is submitte
 
     9. On the left bar, select Triggers -> (bottom right) Add Trigger -> change "Select event type to "On form submit" -> save and verify this trigger
 
+  Note
+
+    1. Ensure the access permission of the tempalte file
+
+    2. Ensure both Google Sheet only has 1 active tab, if not, move the requirerd tab to the first
+
 
