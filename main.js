@@ -4,7 +4,7 @@
 
 // Invoice template
 var TEMPLATE_SHEET_ID = "1234abcd";
-var TEMPLATE_NUM_PLACEHOLDERS = 36;
+var TEMPLATE_NUM_PLACEHOLDERS = 36; // according to the number of products expected, overflow items won't be shown on the invoice, but total price will still be correct
 var OUTPUT_PDF_NAME = "Invoice";
 
 // Submitter headers
