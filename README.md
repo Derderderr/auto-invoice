@@ -6,7 +6,7 @@ This script is used to auto generate an invoice PDF when Google Form is submitte
 
     2. Google Form transmitted responce data onto Google Sheet and trigger the script
 
-    3. Script read the last response row
+    3. Script read the response row (last row)
 
     4. Process the data and calculate the total price
 
