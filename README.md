@@ -24,7 +24,7 @@ This script is used to auto generate an invoice PDF when Google Form is submitte
 
       a. Email Address - where the invoice email will be sent to
 
-      b. At least 1 item
+      b. At least 1 active item
 
     3. Publish the form, and in the Responce tab above, select Link To Sheets -> create a new Google Sheet Response
 
